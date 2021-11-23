@@ -73,6 +73,9 @@ module Sequent
         end
       end
 
+      def connection
+        Sequent::ApplicationRecord.connection
+      end
     end
   end
 end

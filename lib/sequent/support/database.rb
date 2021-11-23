@@ -22,6 +22,10 @@ module Sequent
         YAML.load(ERB.new(File.read(database_yml)).result)[env]
       end
 
+      def self.connection
+        ActiveRecord::Base.connection
+      end
+
       def self.create!(db_config)
         ActiveRecord::Base.establish_connection(db_config.merge('database' => 'postgres'))
         ActiveRecord::Base.connection.create_database(db_config['database'])
@@ -29,7 +33,7 @@ module Sequent
 
       def self.drop!(db_config)
         ActiveRecord::Base.establish_connection(db_config.merge('database' => 'postgres'))
-        ActiveRecord::Base.connection.drop_database(db_config['database'])
+        connection.drop_database(db_config['database'])
       end
 
       def self.establish_connection(db_config)
@@ -41,7 +45,7 @@ module Sequent
       end
 
       def self.execute_sql(sql)
-        ActiveRecord::Base.connection.execute(sql)
+        connection.execute(sql)
       end
 
       def self.create_schema(schema)
@@ -78,7 +82,7 @@ module Sequent
       end
 
       def self.schema_exists?(schema)
-        ActiveRecord::Base.connection.execute(
+        connection.execute(
           "SELECT schema_name FROM information_schema.schemata WHERE schema_name like '#{schema}'"
         ).count == 1
       end

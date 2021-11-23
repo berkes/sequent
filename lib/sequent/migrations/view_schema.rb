@@ -363,6 +363,10 @@ module Sequent
       def establish_connection
         Sequent::Support::Database.establish_connection(db_config)
       end
+
+      def connection
+        Sequent::Support::Database.connection
+      end
     end
   end
 end

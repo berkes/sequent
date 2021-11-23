@@ -10,7 +10,7 @@ module Sequent
       end
 
       def exec_sql(sql)
-        Sequent::ApplicationRecord.connection.execute(sql)
+        connection.execute(sql)
       end
     end
   end
